@@ -3,8 +3,9 @@ services:
   dremio:
     image: dremio/dremio-oss:24.2.5
     ports:
-      - "9047:9047"
-      - "31010:31010"
-      - "32010:32010"
-      - "45678:45678"
+      - 9047:9047 # UI
+      - 31010:31010 # ODBC clients
+      - 32010:32010 # Arrow Flight clients
+      - 2181:2181   # ZooKeeper
+      - 45678:45678 # internode communication
 
