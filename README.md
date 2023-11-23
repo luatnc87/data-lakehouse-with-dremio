@@ -50,9 +50,131 @@ dbt, which stands for Data Build Tool, is a command-line tool that revolutionize
 - **Orchestration**: While dbt focuses on data transformations and modeling, it can be integrated with orchestration tools like Apache Airflow or dbt Cloud to create automated data pipelines.
 
 ## Microsoft Power BI
+Power BI stands as a formidable force in the realm of business intelligence and analytics, offering a suite of tools that revolutionize the way organizations visualize, analyze, and derive insights from their data. As a robust and user-friendly platform developed by Microsoft, Power BI empowers users at all levels to harness the power of data, transforming it into actionable insights that drive informed decision-making.
 
 # Setting up Dremio, DBT, Power BI Desktop
 ## Setting up Dremio OSS
+### Preparing the Docker file and setting up the Dremio services
+We will install `Dremio OSS` via `Docker Compose`. So, we need to prepare the `Docker compose` file with following content:
+```yaml
+version: "3"
+services:
+  dremio:
+    image: dremio/dremio-oss:24.2.5
+    ports:
+      - 9047:9047 # UI
+      - 31010:31010 # ODBC clients
+      - 32010:32010 # Arrow Flight clients
+      - 2181:2181   # ZooKeeper
+      - 45678:45678 # internode communication
+    volumes:
+      - /data/dremio/data/:/opt/dremio/data/
+      - /data/dremio/conf/:/opt/dremio/conf/
+    restart: unless-stopped
+    networks:
+      local_internal:
+        ipv4_address: 172.20.80.2
+
+  mysql:
+    image: mysql:latest
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: pwd@123
+    networks:
+      local_internal:
+        ipv4_address: 172.20.80.3
+
+networks:
+  local_internal:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.80.0/24
+
+```
+And you have to prepare a file `dremio.conf` to configure custom properties as well. For example, in this tutorial, we will use local file system to store Dremio's data including job results, downloads, uploads, accelerators, etc.
+
+```yaml
+paths: {
+
+  # the local path for dremio to store data.
+  local: "/opt/dremio",
+
+  # the distributed path Dremio data including job results, downloads, uploads, etc
+  dist: "file://"${paths.local}"/pdfs"
+
+  # location for catalog database (if master node)
+  db: ${paths.local}/db,
+
+  spilling: [${paths.local}/spill]
+
+  # storage area for the accelerator cache.
+  accelerator: ${paths.dist}/accelerator
+
+  # staging area for json and csv ui downloads
+  downloads: ${paths.dist}/downloads
+
+  # stores uploaded data associated with user home directories
+  uploads: ${paths.dist}/uploads
+
+  # stores data associated with the job results cache.
+  results: ${paths.dist}/results
+
+  # shared scratch space for creation of tables.
+  scratch: ${paths.dist}/scratch
+
+}
+```
+> *NOTE*: In production deployment, you should use distributed file system or storage object such as S3, HDFS, etc. 
+
+> *You have to copy the file `dremio.conf` to the right directory defined in the `Docker compose` file.*
+
+Next step, running following commands to download docker images, install and start components:
+
+```shell
+# enter the dremio directory
+cd ~/dremio
+# copy the custom configuration file into the directory mapped with the Dremio docker
+cp dremio.conf /data/dremio/conf/
+# run docker compose
+docker compose up
+```
+
+The Dremio should be started properly. Afterward, you can access the Admin Web UI at the address *http://localhost:9047*.
+
+You have to initialize your account for the first time. For example:
+![iniatlize_dremio_account.png](images%2Finiatlize_dremio_account.png)
+
+### Accessing the data with Dremio
+Let's begin by creating a new space. Click on the plus sign next to Spaces and add a space called `dev`. This space will contain our views and virtual models that will be created in next steps.
+![create_sapce.png](images%2Fcreate_sapce.png)
+
+Next step, we will create a sample source. We will work with the police incidents data stored on S3. Navigate to Samples in the Sources section on the bottom left. Then click on samples.dremio.com:
+![add_sample_source.png](images%2Fadd_sample_source.png)
+
+Next step, on `Object Storage` section, we go to the path `Samples > samples.dremio.com > NYC-taxi-trips-iceberg`, then click on button `Format Folder` on left hand side to format the dataset.
+![sample_iceberg_dataset.png](images%2Fsample_iceberg_dataset.png)
+
+On next screen, preview sample of the data and click on `Save` button to confirm the format.
+
+![format_iceberg_file.png](images%2Fformat_iceberg_file.png)
+Dremio supports many types of files, including Excel, JSON, Parquet, and others. With some file formats there are required configurations (e.g., field delimiter, line delimiter).
+
+### Exploring dataset
+Now, you can start to query on the dataset. For example, you can run the following query to preview sample of the dataset:
+```sql
+SELECT * FROM "NYC-taxi-trips-iceberg" LIMIT 100
+```
+![simple_query.png](images%2Fsimple_query.png)
+
+
+### Accelerator for the queries
+
 
 ## Setting up DBT
 
