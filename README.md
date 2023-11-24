@@ -232,10 +232,34 @@ On the `Reflections` tab, choose the `Aggregation reflections`, then click on `A
 ![mysql_local_connection_metadata.png](images%2Fmysql_local_connection_metadata.png)
 
 #### Federation query
+Now, you can write the federation query that combines data from S3 source and MySQL source:
 
 ```sql
-
+SELECT * 
+FROM (
+    SELECT * FROM "mysql-local".dremio."SF_incidents2016"
+)
+UNION ALL (
+    SELECT * FROM "Samples"."samples.dremio.com"."SF_incidents2016.json"
+)
 ```
+
+![federation_query.png](images%2Ffederation_query.png)
+
+Saving the query result as a view in the `dev` space for future use.
+
+![save_as_view_2.png](images%2Fsave_as_view_2.png)
+
+You can save it as script for future reuse as well.
+
+![save_as_script.png](images%2Fsave_as_script.png)
+
+### Adding wiki for your models
+Dremio allow you to add a wiki for your model, providing a guide for users on how to utilize your dataset 
+
+![wiki.png](images%2Fwiki.png)
+
+You can add one or many tags/ labels to your model as well.
 
 ## Setting up DBT
 ### Installing dbt core and dbt-dremio
