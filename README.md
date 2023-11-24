@@ -148,14 +148,17 @@ docker compose up
 The Dremio should be started properly. Afterward, you can access the Admin Web UI at the address *http://localhost:9047*.
 
 You have to initialize your account for the first time. For example:
-![iniatlize_dremio_account.png](images%2Finiatlize_dremio_account.png)
+
+<img src="images/iniatlize_dremio_account.png" height="600">
 
 ### Accessing the data with Dremio
 Let's begin by creating a new space. Click on the plus sign next to Spaces and add a space called `dev`. This space will contain our views and virtual models that will be created in next steps.
-![create_sapce.png](images%2Fcreate_sapce.png)
+
+<img src="images/create_sapce.png" height="150">
 
 Next step, we will create a sample source. We will work with the police incidents data stored on S3. Navigate to Samples in the Sources section on the bottom left. Then click on samples.dremio.com:
-![add_sample_source.png](images%2Fadd_sample_source.png)
+
+<img src="images/add_sample_source.png" height="500">
 
 Next step, on `Object Storage` section, we go to the path `Samples > samples.dremio.com > NYC-taxi-trips-iceberg`, then click on button `Format Folder` on left hand side to format the dataset.
 ![sample_iceberg_dataset.png](images%2Fsample_iceberg_dataset.png)
@@ -248,11 +251,12 @@ UNION ALL (
 
 Saving the query result as a view in the `dev` space for future use.
 
-![save_as_view_2.png](images%2Fsave_as_view_2.png)
+<img src="images/save_as_view_2.png" height="500">
 
 You can save it as script for future reuse as well.
 
-![save_as_script.png](images%2Fsave_as_script.png)
+<img src="images/save_as_script.png" height="200">
+
 
 ### Adding wiki for your models
 Dremio allow you to add a wiki for your model, providing a guide for users on how to utilize your dataset 
@@ -382,7 +386,7 @@ Next, click on downloaded file (for example: `dev.SF_incidents2016.pbids`). This
 
 Fill the `username` and `password` information, then click on `Connect` button to start connecting and building your dashboard.
 
-![connection_configuration.png](images%2Fconnection_configuration.png)
+<img src="images/connection_configuration.png" height="200">
 
 This is a simple dashboard built on the `SF_Incidents` dataset.
 
