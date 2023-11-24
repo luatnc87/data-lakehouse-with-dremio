@@ -168,19 +168,126 @@ Dremio supports many types of files, including Excel, JSON, Parquet, and others.
 ### Exploring dataset
 Now, you can start to query on the dataset. For example, you can run the following query to preview sample of the dataset:
 ```sql
-SELECT * FROM "NYC-taxi-trips-iceberg" LIMIT 100
+SELECT * FROM Samples."samples.dremio.com"."NYC-taxi-trips-iceberg" LIMIT 100
 ```
 ![simple_query.png](images%2Fsimple_query.png)
 
+### Saving as View on the working space
+Click on `Save View as` button to save the current query as view on your working space such as `dev` with a name `nyc_taxi_trips`:
 
-### Accelerator for the queries
+![save_as_view.png](images%2Fsave_as_view.png)
 
+Now, you can query this view as following commands:
+```sql
+SELECT * FROM dev."nyc_taxi_trips" LIMIT 100
+```
+![query_on_dev_space.png](images%2Fquery_on_dev_space.png)
+
+
+### Accelerating your queries with `Reflections`
+#### A paradigm shift for query acceleration: 
+*A Reflection is an optimized relational cache of source data that can be used to speed-up data processing*. Dremio's query optimizer can accelerate a query against tables or Views by using one or more Reflections to partially or entirely satisfy that query, eliminating the need to process all of the raw data in the underlying data sources. Queries do not need to reference Reflections directly. Instead, Dremio rewrites queries on the fly to use matching Reflections, delivering near-instantaneous query results and reduced compute cost.
+
+#### Create a Raw reflection for your models
+You can create them to accelerate common SQL aggregations or for raw Reflections across table joins or unoptimized data.
+
+Select the `Reflections` tab to enter the reflection configuration. Next step, you can choose to enable either `Raw Reflections` or `Aggregation Reflections`. 
+
+On the `Raw Reflections` tab, click on `Raw Reflections` to enable reflection for the current model. Next, you can click on button `Dataset Settings`⚙️ on the top right hand side to popup a windows to configure a scheduler for reflection.
+
+![reflection_configuration.png](images%2Freflection_configuration.png)
+
+- Refresh methods: Dremio provides two options to refresh data:
+  - Full update:
+  - Incremental update:
+- Refresh policy:
+  - Refresh:
+    - Never
+    - Interval: Hour(s)/ Day(s)/ Week(s) or Now
+  - Expire:
+    - Never
+    - After: Hour(s)/ Day(s)/ Week(s)
+
+You can monitor status of the reflection jobs on the `Jobs` section.
+
+![reflection_job.png](images%2Freflection_job.png)
+
+Click on the `Job ID` link to move to detailed page, where you can find more information about the job, including its status, resource usage, etc. These details are helpful for debuging if needed.
+
+![monitor_detailed_refection_job.png](images%2Fmonitor_detailed_refection_job.png)
+
+#### Creating an Aggregation reflection
+On the `Reflections` tab, choose the `Aggregation reflections`, then click on `Aggregation reflections` button to enable reflection. Next, you need to configure the dimensions and metrics for your aggregation model.
+
+![enable_agg_reflection.png](images%2Fenable_agg_reflection.png)
+> **NOTE:** You can create multiple reflections for a model as needed. When you run a query that utilizes your base model, Dremio automatically optimizes the query by selecting a suitable reflection to accelerate its execution.
+
+### Combining data from multiple source with Dremio's Federation query
+#### Accessing data from OLTP database - MySQL db
+
+![mysql_local_connection.png](images%2Fmysql_local_connection.png)
+
+![mysql_local_connection_reflection_refresh.png](images%2Fmysql_local_connection_reflection_refresh.png)
+
+![mysql_local_connection_metadata.png](images%2Fmysql_local_connection_metadata.png)
+
+#### Federation query
+
+```sql
+
+```
 
 ## Setting up DBT
+### Installing dbt core and dbt-dremio
+Firstly, we need to install dbt core and dbt-dremio libraries. You should install them in a separate environment. Run the following commands:
+```shell
+cd dremio
+python3 -m venv .env
+
+# install libraries
+pip3 install -r requirements.txt
+# check the dbt libraries installed properly
+dbt --version
+
+# output should be like the content showcased below:
+Core:
+  - installed: 1.5.9
+  - latest:    1.7.2 - Update available!
+
+  Your version of dbt-core is out of date!
+  You can find instructions for upgrading here:
+  https://docs.getdbt.com/docs/installation
+
+Plugins:
+  - dremio: 1.5.0 - Up to date!
+```
 
 ## Setting up Power BI Desktop
+You can download `Power BI` from [here](https://www.microsoft.com/en-us/download/details.aspx?id=58494) or from `Microsoft store` application if you are using Windows OS.
 
-# Build a simple data pipeline
+
+# Building a simple dbt project and visualizing data with Power BI
+## Initializing a dbt project
+Following steps below to initialize a new dbt project:
+1. Run the command dbt init <project_name>.
+2. Select `dremio` as the database to use
+3. Select one of these options to generate a profile for your project:
+   - `software_with_username_password` for working with a Dremio Software cluster and authenticating to the cluster with a `username` and a `password`
+   - `software_with_pat` for working with a Dremio Software cluster and authenticating to the cluster with a personal access token
+
+For simplicity, we will utilize the `software_with_username_password` option.
+
+![init_dbt_project.png](images%2Finit_dbt_project.png)
+
+Next, configure the profile for your dbt project.
+
+## Profiles
+```yaml
+
+```
+
+
+##
 
 
 # Conclusion
