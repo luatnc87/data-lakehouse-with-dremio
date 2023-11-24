@@ -227,12 +227,17 @@ On the `Reflections` tab, choose the `Aggregation reflections`, then click on `A
 
 ### Combining data from multiple source with Dremio's Federation query
 #### Accessing data from OLTP database - MySQL db
+To create a connection to local MySQL database, click on the `Add source` button, then choose the `MySQL` datasource. Filling the connection information as image below:
 
-![mysql_local_connection.png](images%2Fmysql_local_connection.png)
+<img src="images/mysql_local_connection.png" height="600">
 
-![mysql_local_connection_reflection_refresh.png](images%2Fmysql_local_connection_reflection_refresh.png)
+Next, configure the `Refresh Policy`:
 
-![mysql_local_connection_metadata.png](images%2Fmysql_local_connection_metadata.png)
+<img src="images/mysql_local_connection_reflection_refresh.png" height="250">
+
+And then, configure the `Dataset Handling`:
+
+<img src="images/mysql_local_connection_metadata.png" height="500">
 
 #### Federation query
 Now, you can write the federation query that combines data from S3 source and MySQL source:
