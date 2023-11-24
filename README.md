@@ -374,11 +374,37 @@ There are 1 unused configuration paths:
 
 
 
-##
+## Building a Dashboard
+On Details page of your model, click on `Power BI` icon on the top right hand side to download a `.pdids` file.
 
+![detail_page_model.png](images%2Fdetail_page_model.png)
+Next, click on downloaded file (for example: `dev.SF_incidents2016.pbids`). This action triggers a Power BI connection configuration pop-up.
+
+Fill the `username` and `password` information, then click on `Connect` button to start connecting and building your dashboard.
+
+![img_2.png](images%2Fimg_2.png)
+
+This is a simple dashboard built on the `SF_Incidents` dataset.
+
+![dashboard.png](images%2Fdashboard.png)
 
 # Conclusion
+In this tutorial, we embarked on a journey through the Police Department Incident Reports dataset (2016), exploring its schema and intricacies using Dremio. We unveiled how Dremio serves as a pivotal tool in simplifying complex data operations, from creating models and views to providing guidance through wikis.
 
+Moreover, the integration of tools like DBT for transformation and Power BI for visualization further amplifies the dataset's potential. DBT's role in transforming and modeling data adds a layer of efficiency to the dataset's preparation, enabling cleaner and more structured outputs. Simultaneously, Power BI's robust visualization capabilities breathe life into the dataset, converting insights into impactful visual narratives.
+
+By combining the capabilities of Dremio, DBT, and Power BI, users can unlock the full potential of their datasets. The seamless flow from data preparation with DBT to dynamic visualizations with Power BI, all orchestrated through Dremio's unified platform, empowers users to extract, analyze, and visualize data-driven insights efficiently.
+
+As we conclude, remember that the dataset we explored is a testament to the storytelling power of data. The convergence of these tools opens doors to a world of possibilities in data analysis, informed decision-making, and actionable insights.
+
+Continue harnessing the combined strengths of Dremio, DBT, and Power BI to explore, analyze, and visualize datasets, propelling your journey towards data-driven excellence.
+
+Thank you for joining us on this tutorial expedition!
+
+# Limitations
+- **Dremio OSS Functionality**: While Dremio Open Source Software (OSS) offers a robust set of features, it may lack certain capabilities present in the Dremio Cloud version. Notably, functionalities such as comprehensive Data Lineage tracking and AI-driven generative capabilities for automated wiki generation might be exclusive to the Cloud version, restricting these advanced features in the OSS.
+- **Dremio Arctic Closed Source Nature**: Dremio Arctic, although a powerful addition for managing time-series data, is not open source. This proprietary aspect may limit user accessibility and customization, potentially hindering the integration and extension of Arctic functionalities within specific environments.
+- **Dremio DBT Development Stage**: While Dremio DBT holds promise for streamlined data transformation, it might currently face limitations in its maturity level and documentation depth. Users might encounter challenges due to the tool's evolving nature, potentially impacting its ease of use and comprehensive documentation.
 
 # Reference Documents
 [DBT Dremio](https://docs.getdbt.com/docs/core/connect-data-platform/dremio-setup)
