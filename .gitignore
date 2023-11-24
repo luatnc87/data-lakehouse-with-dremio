@@ -1,3 +1,4 @@
 .idea
 dbt/.env
 dbt/logs
+dbt/dremio/target
