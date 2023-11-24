@@ -307,8 +307,71 @@ Next, configure the profile for your dbt project.
 
 ## Profiles
 ```yaml
-
+dremio:
+  outputs:
+    dev:
+      dremio_space: dev
+      dremio_space_folder: no_schema
+      object_storage_path: no_schema
+      object_storage_source: $scratch
+      user: "{{ env_var('DBT_USER') }}"
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      port: 9047
+      software_host: localhost
+      threads: 1
+      type: dremio
+      use_ssl: false
+  target: dev
 ```
+
+## SF_Incidents model
+To create a simple model with name `SF_Incidents` as following query content:
+
+```sql
+{{
+  config(
+    materialized = "table"
+  )
+}}
+
+SELECT *
+FROM (
+    SELECT * FROM "mysql-local".dremio."SF_incidents2016"
+)
+UNION ALL (
+    SELECT * FROM "Samples"."samples.dremio.com"."SF_incidents2016.json"
+)
+```
+
+Run the following commands to generate model:
+```shell
+cd dbt/dremio
+# activate virtual environment
+source .env/bin/activate
+# run dbt command to generate the model
+dbt run --profiles-dir ./ --project-dir ./
+
+# Results
+07:59:13  Running with dbt=1.5.9
+07:59:14  Registered adapter: dremio=1.5.0
+07:59:14  Unable to do partial parsing because profile has changed
+07:59:16  [WARNING]: Did not find matching node for patch with name 'SF_incidents2016' in the 'models' section of file 'models/schema.yml'
+07:59:16  [WARNING]: Test 'test.dremio.unique_SF_incidents2016_IncidentNum.f8bdb0741d' (models/schema.yml) depends on a node named 'SF_incidents2016' in package '' which was not found
+07:59:16  [WARNING]: Test 'test.dremio.not_null_SF_incidents2016_IncidentNum.93bd2780e1' (models/schema.yml) depends on a node named 'SF_incidents2016' in package '' which was not found
+07:59:16  [WARNING]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+There are 1 unused configuration paths:
+- models.dremio.example
+07:59:16  Found 1 model, 0 tests, 0 snapshots, 0 analyses, 352 macros, 0 operations, 0 seed files, 0 sources, 0 exposures, 0 metrics, 0 groups
+07:59:16
+07:59:17  Concurrency: 1 threads (target='dev')
+07:59:17
+07:55:00  Finished running 1 view model in 0 hours 0 minutes and 1.32 seconds (1.32s).
+07:55:00
+07:55:00  Completed successfully
+07:55:00
+07:55:00  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
+```
+
 
 
 ##
@@ -317,5 +380,6 @@ Next, configure the profile for your dbt project.
 # Conclusion
 
 
-
+# Reference Documents
+[DBT Dremio](https://docs.getdbt.com/docs/core/connect-data-platform/dremio-setup)
 
