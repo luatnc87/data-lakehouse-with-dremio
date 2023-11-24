@@ -1,0 +1,15 @@
+dremio:
+  outputs:
+    dev:
+      dremio_space: dev
+      dremio_space_folder: no_schema
+      object_storage_path: no_schema
+      object_storage_source: $scratch
+      user: "{{ env_var('DBT_USER') }}"
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      port: 9047
+      software_host: localhost
+      threads: 1
+      type: dremio
+      use_ssl: false
+  target: dev

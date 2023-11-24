@@ -1,0 +1,36 @@
+
+version: 2
+
+models:
+  - name: SF_incidents2016
+    description: "The police incident dataset (2016)"
+    columns:
+      - name: IncidentNum
+        description: "Unique identifier for each incident report."
+        tests:
+          - unique
+          - not_null
+      - name: Category
+        description: "Classification of the incident, such as theft, assault, vandalism, etc."
+      - name: Descript
+        description: "Detailed description of the reported incident."
+      - name: DayofWeek
+        description: "Day of the week when the incident occurred."
+      - name: Date
+        description: "Date of the incident in MM/DD/YYYY format."
+      - name: Time
+        description: "Time of the incident in HH:MM format."
+      - name: PdDistrict
+        description: "The police department district where the incident took place."
+      - name: Resolution
+        description: "Resolution or outcome of the incident, including categories like arrest, citation, or none."
+      - name: Address
+        description: "The approximate address or location of the incident."
+      - name: X
+        description: "Longitude coordinates of the incident location."
+      - name: Y
+        description: "Latitude coordinates of the incident location."
+      - name: Location
+        description: "Geographic coordinates (latitude and longitude) of the incident."
+      - name: Pdid
+        description: "Unique identifier for each Police Department Incident Report."
