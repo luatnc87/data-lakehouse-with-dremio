@@ -382,7 +382,7 @@ Next, click on downloaded file (for example: `dev.SF_incidents2016.pbids`). This
 
 Fill the `username` and `password` information, then click on `Connect` button to start connecting and building your dashboard.
 
-![img_2.png](images%2Fimg_2.png)
+![connection_configuration.png](images%2Fconnection_configuration.png)
 
 This is a simple dashboard built on the `SF_Incidents` dataset.
 
@@ -402,10 +402,17 @@ Continue harnessing the combined strengths of Dremio, DBT, and Power BI to explo
 Thank you for joining us on this tutorial expedition!
 
 # Limitations
+The following are some limitations according to the subjective opinion of the author, information updated as of the time of writing:
 - **Dremio OSS Functionality**: While Dremio Open Source Software (OSS) offers a robust set of features, it may lack certain capabilities present in the Dremio Cloud version. Notably, functionalities such as comprehensive Data Lineage tracking and AI-driven generative capabilities for automated wiki generation might be exclusive to the Cloud version, restricting these advanced features in the OSS.
 - **Dremio Arctic Closed Source Nature**: Dremio Arctic, although a powerful addition for managing time-series data, is not open source. This proprietary aspect may limit user accessibility and customization, potentially hindering the integration and extension of Arctic functionalities within specific environments.
 - **Dremio DBT Development Stage**: While Dremio DBT holds promise for streamlined data transformation, it might currently face limitations in its maturity level and documentation depth. Users might encounter challenges due to the tool's evolving nature, potentially impacting its ease of use and comprehensive documentation.
+- **Maintenance of Dremio OSS on GitHub**: The Dremio OSS project on GitHub may experience comparatively lesser maintenance, potentially impacting the frequency of updates, bug fixes, and community contributions, which could affect the stability and enhancement of the OSS version.
 
 # Reference Documents
 [DBT Dremio](https://docs.getdbt.com/docs/core/connect-data-platform/dremio-setup)
 
+[Dremio OSS document](https://docs.dremio.com/current/get-started/)
+
+[Accelerating Queries with Reflections](https://docs.dremio.com/current/sonar/reflections/)
+
+[Administration](https://docs.dremio.com/current/admin/)
